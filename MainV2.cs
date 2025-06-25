@@ -2,8 +2,6 @@
 extern alias Drawing;
 #endif
 
-// using MissionPlanner.Utilities; // for ExcelLogger
-
 using GMap.NET.WindowsForms;
 using log4net;
 using MissionPlanner.ArduPilot;
@@ -3108,11 +3106,7 @@ namespace MissionPlanner
                             try
                             {
                                 MAV.cs.UpdateCurrentSettings(null, false, port, MAV);
-                                 // Log if GPS data is valid (lat/lng != 0)
-                                // if (MAV.cs.lat != 0 && MAV.cs.lng != 0)
-                                // {
-                                //   ExcelLogger.Log(MAV.cs.lat, MAV.cs.lng, MAV.cs.altasl); // barometric altitude
-                                 //}
+                            
                             }
                             catch (Exception ex)
                             {
