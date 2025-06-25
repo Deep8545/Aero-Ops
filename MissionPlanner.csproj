@@ -57,6 +57,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <CodeAnalysisRuleSet>
     </CodeAnalysisRuleSet>
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>MissionPlanner</RootNamespace>

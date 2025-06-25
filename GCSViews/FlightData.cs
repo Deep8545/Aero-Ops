@@ -173,6 +173,26 @@ namespace MissionPlanner.GCSViews
 
         string updateBindingSourceThreadName = "";
 
+        private string currentGpsExportFile = null;
+
+        public void OnVehicleConnected()
+        {
+            // Save to user's Documents\ExportedGPS
+            string folder = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "ExportedGPS"
+            );
+            Directory.CreateDirectory(folder);
+            currentGpsExportFile = Path.Combine(folder, $"GPS_{DateTime.UtcNow:yyyyMMdd_HHmmss}.csv");
+            string csvHeader = "Timestamp,Latitude,Longitude,Altitude";
+            File.WriteAllText(currentGpsExportFile, csvHeader + Environment.NewLine, Encoding.UTF8);
+        }
+        
+        public void OnVehicleDisconnected()
+        {
+            currentGpsExportFile = null;
+        }
+
         public enum actions
         {
             Loiter_Unlim,
@@ -1286,6 +1306,36 @@ namespace MissionPlanner.GCSViews
                         }
                     }
                 }
+            }
+        }
+        private void BUT_export_gps_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(currentGpsExportFile))
+                {
+                    CustomMessageBox.Show("No active session or vehicle not connected.", "Export GPS");
+                    return;
+                }
+        
+                // Get current GPS data
+                var cs = MainV2.comPort.MAV.cs;
+                double lat = cs.lat;
+                double lng = cs.lng;
+                double alt = cs.altasl; // Altitude from barometer (absolute)
+                string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
+        
+                // Prepare CSV line
+                string csvLine = $"{timestamp},{lat},{lng},{alt}";
+        
+                // Append to file
+                File.AppendAllText(currentGpsExportFile, csvLine + Environment.NewLine, Encoding.UTF8);
+        
+                CustomMessageBox.Show($"GPS exported to:\n{currentGpsExportFile}", "Export GPS");
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to export GPS:\n" + ex.Message, "Export GPS");
             }
         }
 

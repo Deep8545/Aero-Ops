@@ -61,6 +61,7 @@ namespace MissionPlanner.GCSViews
             this.BUT_ARM = new MissionPlanner.Controls.MyButton();
             this.BUT_mountmode = new MissionPlanner.Controls.MyButton();
             this.BUT_joystick = new MissionPlanner.Controls.MyButton();
+            this.BUT_export_gps = new MissionPlanner.Controls.MyButton();
             this.BUT_RAWSensor = new MissionPlanner.Controls.MyButton();
             this.BUT_Homealt = new MissionPlanner.Controls.MyButton();
             this.BUTrestartmission = new MissionPlanner.Controls.MyButton();
@@ -738,6 +739,7 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1.Controls.Add(this.BUT_ARM, 3, 3);
             this.tableLayoutPanel1.Controls.Add(this.BUT_mountmode, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.BUT_joystick, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_export_gps, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_RAWSensor, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.BUT_Homealt, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.BUTrestartmission, 3, 1);
@@ -941,6 +943,17 @@ namespace MissionPlanner.GCSViews
             this.BUT_joystick.UseVisualStyleBackColor = true;
             this.BUT_joystick.Click += new System.EventHandler(this.BUT_joystick_Click);
             // 
+            // BUT_export_gps
+            //
+            this.BUT_export_gps.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BUT_export_gps.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BUT_export_gps.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.BUT_export_gps, "BUT_export_gps");
+            this.BUT_export_gps.Name = "BUT_export_gps";
+            this.toolTip1.SetToolTip(this.BUT_export_gps, resources.GetString("BUT_export_gps.ToolTip"));
+            this.BUT_export_gps.UseVisualStyleBackColor = true;
+            this.BUT_export_gps.Click += new System.EventHandler(this.BUT_export_gps_Click);
+            //
             // BUT_RAWSensor
             // 
             this.BUT_RAWSensor.ColorMouseDown = System.Drawing.Color.Empty;
@@ -2859,6 +2872,7 @@ namespace MissionPlanner.GCSViews
         private Controls.MyButton BUT_quickauto;
         private Controls.MyButton BUT_log2kml;
         private Controls.MyButton BUT_joystick;
+        private Controls.MyButton BUT_export_gps;
         private System.Windows.Forms.ToolTip toolTip1;
         private Label lbl_logpercent;
         private System.Windows.Forms.ToolStripMenuItem pointCameraHereToolStripMenuItem;
@@ -2964,7 +2978,7 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem recordHudToAVIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setMJPEGSourceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopRecordToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem startCameraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startCameraTozolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem customizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PointCameraCoordsToolStripMenuItem1;

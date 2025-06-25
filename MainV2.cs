@@ -2,7 +2,7 @@
 extern alias Drawing;
 #endif
 
-using MissionPlanner.Utilities; // for ExcelLogger
+// using MissionPlanner.Utilities; // for ExcelLogger
 
 using GMap.NET.WindowsForms;
 using log4net;
@@ -1452,6 +1452,12 @@ namespace MissionPlanner
         public void doDisconnect(MAVLinkInterface comPort)
         {
             log.Info("We are disconnecting");
+            
+            if (FlightData != null)
+             {
+              FlightData.OnVehicleDisconnected();
+             }
+
             try
             {
                 if (speechEngine != null) // cancel all pending speech
@@ -1694,6 +1700,11 @@ namespace MissionPlanner
 
                     return;
                 }
+
+                if (FlightData != null)
+                 {
+                    FlightData.OnVehicleConnected();
+                 }
 
                 //158	MAV_COMP_ID_PERIPHERAL	Generic autopilot peripheral component ID. Meant for devices that do not implement the parameter microservice.
                 if (getparams && comPort.MAV.compid != (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_PERIPHERAL)
@@ -3098,10 +3109,10 @@ namespace MissionPlanner
                             {
                                 MAV.cs.UpdateCurrentSettings(null, false, port, MAV);
                                  // Log if GPS data is valid (lat/lng != 0)
-                                if (MAV.cs.lat != 0 && MAV.cs.lng != 0)
-                                 {
-                                   ExcelLogger.Log(MAV.cs.lat, MAV.cs.lng, MAV.cs.altasl); // barometric altitude
-                                 }
+                                // if (MAV.cs.lat != 0 && MAV.cs.lng != 0)
+                                // {
+                                //   ExcelLogger.Log(MAV.cs.lat, MAV.cs.lng, MAV.cs.altasl); // barometric altitude
+                                 //}
                             }
                             catch (Exception ex)
                             {
