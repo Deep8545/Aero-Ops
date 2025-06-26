@@ -739,7 +739,7 @@ namespace MissionPlanner.GCSViews
             this.tableLayoutPanel1.Controls.Add(this.BUT_ARM, 3, 3);
             this.tableLayoutPanel1.Controls.Add(this.BUT_mountmode, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.BUT_joystick, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_export_gps, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_export_gps, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.BUT_RAWSensor, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.BUT_Homealt, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.BUTrestartmission, 3, 1);
