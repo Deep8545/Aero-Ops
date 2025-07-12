@@ -175,11 +175,75 @@ namespace MissionPlanner.GCSViews
 
         private string currentGpsExportFile = null;
 
+        // Auto-disappearing notification method
+        private void ShowAutoCloseNotification(string message, string title = "Notification", int autoCloseTimeMs = 2000, bool isError = false)
+        {
+            var notificationForm = new Form()
+            {
+                Text = title,
+                Width = 450,
+                Height = 150,
+                StartPosition = FormStartPosition.Manual,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                ShowInTaskbar = false,
+                TopMost = true
+            };
+
+            // Set position to bottom right corner of screen
+                notificationForm.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - notificationForm.Width - 20, Screen.PrimaryScreen.WorkingArea.Height - notificationForm.Height - 20);
+
+            var label = new System.Windows.Forms.Label()
+            {
+                Text = message,
+                AutoSize = true,
+                Location = new System.Drawing.Point(30, 30)
+            };
+            
+
+            notificationForm.Controls.Add(label);
+
+            // Timer to auto-close the notification
+            var closeTimer = new System.Windows.Forms.Timer()
+            {
+                Interval = autoCloseTimeMs
+            };
+            
+            closeTimer.Tick += (s, e) =>
+            {
+                closeTimer.Stop();
+                closeTimer.Dispose();
+                notificationForm.Close();
+                notificationForm.Dispose();
+            };
+
+            // Allow manual closing by clicking
+            notificationForm.Click += (s, e) =>
+            {
+                closeTimer.Stop();
+                closeTimer.Dispose();
+                notificationForm.Close();
+                notificationForm.Dispose();
+            };
+
+            label.Click += (s, e) =>
+            {
+                closeTimer.Stop();
+                closeTimer.Dispose();
+                notificationForm.Close();
+                notificationForm.Dispose();
+            };
+
+            closeTimer.Start();
+            notificationForm.Show();
+        }
+
         public void OnVehicleConnected()
         {
-            // Save to user's Documents\ExportedGPS
+            // Save to user's Desktop\ExportedGPS
             string folder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
                 "ExportedGPS"
             );
             Directory.CreateDirectory(folder);
@@ -1314,7 +1378,7 @@ namespace MissionPlanner.GCSViews
             {
                 if (string.IsNullOrEmpty(currentGpsExportFile))
                 {
-                    CustomMessageBox.Show("No active session or vehicle not connected.", "Export GPS");
+                    ShowAutoCloseNotification("No active session or vehicle not connected.", "Export GPS", 2000, true);
                     return;
                 }
         
@@ -1323,7 +1387,7 @@ namespace MissionPlanner.GCSViews
                 double lat = cs.lat;
                 double lng = cs.lng;
                 double alt = cs.altasl; // Altitude from barometer (absolute)
-                string timestamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
+                string timestamp = DateTime.UtcNow.ToString("u");
         
                 // Prepare CSV line
                 string csvLine = $"{timestamp},{lat},{lng},{alt}";
@@ -1331,11 +1395,11 @@ namespace MissionPlanner.GCSViews
                 // Append to file
                 File.AppendAllText(currentGpsExportFile, csvLine + Environment.NewLine, Encoding.UTF8);
         
-                CustomMessageBox.Show($"GPS exported to:\n{currentGpsExportFile}", "Export GPS");
+                ShowAutoCloseNotification($"GPS exported to:\n{currentGpsExportFile}", "Export GPS", 2000, false);
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to export GPS:\n" + ex.Message, "Export GPS");
+                ShowAutoCloseNotification("Failed to export GPS:\n" + ex.Message, "Export GPS", 2000, true);
             }
         }
 
