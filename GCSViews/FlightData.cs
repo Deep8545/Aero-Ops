@@ -248,7 +248,7 @@ namespace MissionPlanner.GCSViews
             );
             Directory.CreateDirectory(folder);
             currentGpsExportFile = Path.Combine(folder, $"GPS_{DateTime.UtcNow:yyyyMMdd_HHmmss}.csv");
-            string csvHeader = "Timestamp,Latitude,Longitude,Altitude";
+            string csvHeader = "Timestamp,Latitude,Longitude,Altitude,HomeAltitude";
             File.WriteAllText(currentGpsExportFile, csvHeader + Environment.NewLine, Encoding.UTF8);
         }
         
@@ -1387,10 +1387,11 @@ namespace MissionPlanner.GCSViews
                 double lat = cs.lat;
                 double lng = cs.lng;
                 double alt = cs.altasl; // Altitude from barometer (absolute)
+                double homealt = cs.HomeAlt; // Home altitude
                 string timestamp = DateTime.UtcNow.ToString("u");
         
                 // Prepare CSV line
-                string csvLine = $"{timestamp},{lat},{lng},{alt}";
+                string csvLine = $"{timestamp},{lat},{lng},{alt},{homealt}";
         
                 // Append to file
                 File.AppendAllText(currentGpsExportFile, csvLine + Environment.NewLine, Encoding.UTF8);
